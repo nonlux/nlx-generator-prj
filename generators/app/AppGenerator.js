@@ -61,6 +61,7 @@ module.exports = yeoman.Base.extend({
 
         return this.prompt(prompts).then(function (props) {
             this.props = Object.assign({}, props, this.props);
+            this.props.isGithub = this.props.isGithub === 'y' || this.props.isGithub === true;
         this.config.set(this.props);
         }.bind(this));
     },
