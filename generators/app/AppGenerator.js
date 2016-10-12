@@ -26,7 +26,6 @@ module.exports = yeoman.Base.extend({
 
         return this.prompt(prompts).then(function (props) {
             this.props = Object.assign({}, props, this.props);
-        this.config.set(this.props);
         }.bind(this));
     },
 
@@ -62,12 +61,11 @@ module.exports = yeoman.Base.extend({
         return this.prompt(prompts).then(function (props) {
             this.props = Object.assign({}, props, this.props);
             this.props.isGithub = this.props.isGithub === 'y' || this.props.isGithub === true;
-        this.config.set(this.props);
         }.bind(this));
     },
     saveProps: function() {
         this.destinationRoot(path.join(HOME,'src', this.props.projectName));
-        console.log(this.props)
+        console.log(this.props,this.destinationRoot());
         this.config.set(this.props);
         this.config.save();
     },
