@@ -6,17 +6,8 @@ var jsYaml = require('js-yaml');
 var HOME = process.env.HOME;
 
 module.exports = yeoman.Base.extend({
-  prompting: function () {
-
-    var prompts = [ ];
-
-    return this.prompt(prompts).then(function (props) {
-      // To access props later use this.props.someAnswer;
-      this.props = props;
-    }.bind(this));
-  },
-
-  writing: function () {
+  writing2: function () {
+        console.log('call w2');
     var shortName = this.config.get('shortName');
     var fileName = this.destinationPath('.ide/'+shortName+'.yml')
     if (!this.fs.exists(fileName)) {
