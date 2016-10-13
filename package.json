@@ -2,12 +2,8 @@
   "name": "nlx-generator-prj",
   "version": "0.0.1",
   "description": "Generators for my projects",
-  "homepage": "",
-  "author": {
-    "name": "nonlux",
-    "email": "nonluxi@gmail.com",
-    "url": ""
-  },
+  "homepage": "https://github.com/nonlux/nlx-generator-prj",
+  "author": "nonlux <nonluxi@gmail.com>",
   "files": [
     "generators"
   ],
@@ -34,6 +30,7 @@
     "gulp-mocha": "^2.0.0",
     "gulp-nsp": "^2.1.0",
     "gulp-plumber": "^1.0.0",
+    "nlx-babel-config": "0.0.1",
     "yeoman-assert": "^2.0.0",
     "yeoman-test": "^1.0.0"
   },
@@ -43,10 +40,17 @@
       "mocha": true
     }
   },
-  "repository": "nonlux/generator-prj",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nonlux/nlx-generator-prj.git"
+  },
   "scripts": {
     "prepublish": "gulp prepublish",
-    "test": "gulp"
+    "test": "gulp",
+    "postinstall": "./npm-post.sh"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nonlux/nlx-generator-prj/issues"
+  }
 }

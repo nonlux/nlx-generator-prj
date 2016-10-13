@@ -3,4 +3,5 @@
 \#*
 <% if (projectType === 'javascript' ) { %>
 node_modules/*
+.babelrc
 <% } %>

@@ -16,6 +16,8 @@ module.exports = yeoman.Base.extend({
 
     writing: function () {
         if (this.props.projectType === 'javascript') {
+            console.log(this.props);
+            console.log(this.destinationPath('package.json'));
             var name = this.props.projectName;
             var config = {
                 license:  "MIT",
@@ -35,10 +37,11 @@ module.exports = yeoman.Base.extend({
                 };
                 config.homepage= url;
             };
-            if (!this.fs.exists( this.destinationPath('package.json') )) {
+            if (!this.fs.exists(this.destinationPath('package.json'))) {
+                console.log('generate package json');
                 this.spawnCommandSync('npm', ['init', '-f']);
-                this.fs.extendJSON(this.destinationPath('package.json'), config);
             }
+                this.fs.extendJSON(this.destinationPath('package.json'), config);
             this.fs.copyTpl(
                 this.templatePath('npm-post.sh'),
                 this.destinationPath('npm-post.sh'),

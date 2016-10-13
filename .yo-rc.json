@@ -4,6 +4,6 @@
     "description": "yeoman project generator",
     "projectType": "javascript",
     "isGithub": true,
-    "projectName": "nlx-generator-project"
+    "projectName": "nlx-generator-prj"
   }
 }
