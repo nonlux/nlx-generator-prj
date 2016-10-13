@@ -11,53 +11,43 @@ module.exports = yeoman.Base.extend({
     },
     prompting: function() {
         var generator = this;
-        return config(generator, ['projectName', 'projectType']);
+        return config(generator, ['projectName', 'projectType', 'isGithub']);
     },
 
-    writing2: function () {
-        console.log('props');
-        console.log(this.props);
-    }
-/*        console.log(this.config.get('projectName'));
-        if (this.config.get('projectType') === 'javascript') {
-        var name = this.config.get('projectName');
-        var config = {
-            license:  "MIT",
-            author: "nonlux <nonluxi@gmail.com>",
-            scripts: {
-                postinstall: './npm-post.sh',
-            }
-        };
-        if (this.config.get('isGithub')) {
-            var url = "https://github.com/nonlux/"+name;
-            config.repository= {
-                "type": "git",
-                "url": url+".git"
+    writing: function () {
+        if (this.props.projectType === 'javascript') {
+            var name = this.props.projectName;
+            var config = {
+                license:  "MIT",
+                author: "nonlux <nonluxi@gmail.com>",
+                scripts: {
+                    postinstall: './npm-post.sh',
+                }
             };
-            config.bugs= {
-                "url": url+"/issues"
+            if (this.props.isGithub) {
+                var url = "https://github.com/nonlux/"+name;
+                config.repository= {
+                    "type": "git",
+                    "url": url+".git"
+                };
+                config.bugs= {
+                    "url": url+"/issues"
+                };
+                config.homepage= url;
             };
-            config.homepage= url;
-        };
             if (!this.fs.exists( this.destinationPath('package.json') )) {
                 this.spawnCommandSync('npm', ['init', '-f']);
                 this.fs.extendJSON(this.destinationPath('package.json'), config);
             }
-        this.fs.copyTpl(
-            this.templatePath('npm-post.sh'),
-            this.destinationPath('npm-post.sh'),
-            this.props
-        );
-        this.fs.write(
-            this.destinationPath('.gitignore'),
-            this.fs.read(this.destinationPath('.gitignore'))+
-            this.fs.read(this.templatePath('.gitignore')),
-        );
+            this.fs.copyTpl(
+                this.templatePath('npm-post.sh'),
+                this.destinationPath('npm-post.sh'),
+                this.props
+            );
         }
-
     },
     install: function () {
-        this.spawnCommand('npm', ['install', 'nlx-babel-config', '--save-dev']);
+        this.spawnCommandSync('npm', ['install', 'nlx-babel-config', '--save-dev']);
+        this.spawnCommandSync('npm', ['install']);
     }
-    */
 });

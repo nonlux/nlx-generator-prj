@@ -1,4 +1,3 @@
-// import yeoman from 'yeoman-generator';
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
@@ -9,16 +8,16 @@ var config = require('../config');
 
 module.exports = yeoman.Base.extend({
     initializing : function () {
-        this.composeWith('prj:gitInit');
-        this.composeWith('prj:gitIgnore');
-        this.composeWith('prj:readme');
-        this.composeWith('prj:tmuxinator');
-        this.composeWith('prj:js');
     },
     prompting: function() {
         var generator = this;
-        return config(generator, ['projectName'], true);
+        return config(generator, ['projectName',  'description']);
     },
     writing: function() {
+      this.fs.copyTpl(
+      this.templatePath('README.md'),
+      this.destinationPath('README.md'),
+      this.props
+      );
     }
 });

@@ -62,14 +62,29 @@ function prompt(data, promptKeys, generator, resolve) {
             }},
         projectType: function() {
             return {
-      type: 'list',
-      name: 'projectType',
-      message: 'Type of project:',
-      choices: ['shell', 'javascript'],
-      };
+                type: 'list',
+                name: 'projectType',
+                message: 'Type of project:',
+                choices: ['shell', 'javascript'],
+            };
+        },
+        isGithub: function() {
+            return {
+                type: 'confirm',
+                name: 'isGithub',
+                message: 'Publish on github?',
+            };
+        },
+        description: function() {
+            return {
+                type: 'prompt',
+                name: 'description',
+                message: 'Description:',
+                default:'',
+            };
         },
     };
-    var key  =promptKeys.shift();
+    var key  = promptKeys.shift();
     if (key) {
         generator.prompt([schema[key](data)]).then(function(props) {
             Object.assign(data, props);
@@ -87,14 +102,13 @@ function config(generator, options, refresh ){
         loadConfig(generator, refresh)
             .then(promptRequired(options, generator))
             .then(function(data){
-                console.log(data);
                 generator.props=data;
-                console.log(generator.destinationRoot());
                 generator.destinationRoot(path.join(HOME,'src', data.projectName));
                 generator.config.set(data);
                 generator.config.save();
                 global.DATA  = data;
-                resolve(data); });
+                resolve(data);
+            });
     });
 };
 
