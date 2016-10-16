@@ -75,6 +75,13 @@ function prompt(data, promptKeys, generator, resolve) {
                 message: 'Publish on github?',
             };
         },
+        isBabel: function() {
+            return {
+                type: 'confirm',
+                name: 'isBabel',
+                message: 'Use babel.js?',
+            };
+        },
         description: function() {
             return {
                 type: 'prompt',

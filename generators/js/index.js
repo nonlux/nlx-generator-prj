@@ -11,7 +11,7 @@ module.exports = yeoman.Base.extend({
     },
     prompting: function() {
         var generator = this;
-        return config(generator, ['projectName', 'projectType', 'isGithub']);
+        return config(generator, ['projectName', 'projectType', 'isGithub', 'isBabel']);
     },
 
     writing: function () {
@@ -24,7 +24,9 @@ module.exports = yeoman.Base.extend({
                 author: "nonlux <nonluxi@gmail.com>",
                 scripts: {
                     postinstall: './npm-post.sh',
-                }
+                },
+                name: name,
+                version: '0.0.1',
             };
             if (this.props.isGithub) {
                 var url = "https://github.com/nonlux/"+name;
@@ -50,7 +52,11 @@ module.exports = yeoman.Base.extend({
         }
     },
     install: function () {
-        this.spawnCommandSync('npm', ['install', 'nlx-babel-config', '--save-dev']);
-        this.spawnCommandSync('npm', ['install']);
+        if (this.props.projectType === 'javascript') {
+            if (this.props.isBabel) {
+                this.spawnCommandSync('npm', ['install', 'nlx-babel-config', '--save-dev']);
+            }
+          this.spawnCommandSync('npm', ['install']);
+        }
     }
 });
