@@ -5,6 +5,7 @@
     "projectType": "javascript",
     "isGithub": true,
     "projectName": "nlx-generator-prj",
-    "isBabel": true
+    "isBabel": true,
+    "isEslint": true
   }
 }

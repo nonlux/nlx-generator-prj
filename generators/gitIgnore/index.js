@@ -17,7 +17,7 @@ module.exports = yeoman.Base.extend({
       this.fs.copyTpl(
       this.templatePath('.gitignore'),
       this.destinationPath('.gitignore'),
-      this.props
+          Object.assign({isBabel: false, isEslint: false},this.props)
       );
     }
 });

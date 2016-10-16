@@ -4,5 +4,10 @@
 *.log
 <% if (projectType === 'javascript' ) { %>
 node_modules/*
+<% if (isBabel) { %>
 .babelrc
+<% } %>
+<% if (isEslint) { %>
+.eslintrc.js
+<% } %>
 <% } %>

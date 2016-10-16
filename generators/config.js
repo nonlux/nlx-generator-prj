@@ -82,6 +82,13 @@ function prompt(data, promptKeys, generator, resolve) {
                 message: 'Use babel.js?',
             };
         },
+        isEslint: function() {
+            return {
+                type: 'confirm',
+                name: 'isEslint',
+                message: 'Use eslint?',
+            };
+        },
         description: function() {
             return {
                 type: 'prompt',

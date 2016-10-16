@@ -8,12 +8,18 @@ var config = require('../config');
 module.exports = yeoman.Base.extend({
 
     initializing: function() {
+        this.composeWith('prj:gitIgnore');
     },
     prompting: function() {
         var generator = this;
-        return config(generator, ['projectName', 'projectType', 'isGithub', 'isBabel']);
+        return config(generator, [
+            'projectName',
+            'projectType',
+            'isGithub',
+            'isBabel',
+            'isEslint',
+        ]);
     },
-
     writing: function () {
         if (this.props.projectType === 'javascript') {
             console.log(this.props);
@@ -55,6 +61,9 @@ module.exports = yeoman.Base.extend({
         if (this.props.projectType === 'javascript') {
             if (this.props.isBabel) {
                 this.spawnCommandSync('npm', ['install', 'nlx-babel-config', '--save-dev']);
+            }
+            if (this.props.isEslint) {
+                this.spawnCommandSync('npm', ['install', 'nlx-eslint-config', '--save-dev']);
             }
           this.spawnCommandSync('npm', ['install']);
         }
