@@ -23,7 +23,9 @@ export default class JsGenerator extends Base {
         license: 'MIT',
         author: 'nonlux <nonluxi@gmail.com>',
         scripts: {
-          postinstall: './npm-post.sh',
+          postinstall: '',
+          ncu: 'ncu'
+
         },
         name,
       };
@@ -45,11 +47,6 @@ export default class JsGenerator extends Base {
       }
       const pack = require(this.destinationPath('package.json')); //eslint-disable-line global-require
       this.fs.write(this.destinationPath('package.json'), JSON.stringify(merge(pack, config)));
-      this.fs.copyTpl(
-        this.templatePath('npm-post.sh'),
-        this.destinationPath('npm-post.sh'),
-        this.props
-      );
       if (this.props.isEslint) {
       this.fs.copyTpl(
         this.templatePath('eslintrc.js'),
@@ -61,7 +58,7 @@ export default class JsGenerator extends Base {
   }
   install() {
     if (this.props.projectType === 'javascript') {
-      const devPackges = ['install'];
+      const devPackges = ['install', 'npm-check-updates'];
       if (this.props.isBabel) {
         devPackges.push('nlx-babel-config');
       }
@@ -73,7 +70,6 @@ export default class JsGenerator extends Base {
       }
       devPackges.push('--save-dev');
       this.spawnCommandSync('npm', devPackges);
-      this.spawnCommandSync('npm', ['install']);
     }
   }
 }
