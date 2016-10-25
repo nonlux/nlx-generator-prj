@@ -50,6 +50,13 @@ export default class JsGenerator extends Base {
         this.destinationPath('npm-post.sh'),
         this.props
       );
+      if (this.props.isEslint) {
+      this.fs.copyTpl(
+        this.templatePath('eslintrc.js'),
+        this.destinationPath('.eslintrc.js'),
+        this.props
+      );
+      }
     }
   }
   install() {

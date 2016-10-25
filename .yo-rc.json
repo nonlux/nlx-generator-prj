@@ -6,6 +6,7 @@
     "isGithub": true,
     "projectName": "nlx-generator-prj",
     "isBabel": true,
-    "isEslint": true
+    "isEslint": true,
+    "isWebpack": false
   }
 }
