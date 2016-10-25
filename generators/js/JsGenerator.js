@@ -48,11 +48,18 @@ export default class JsGenerator extends Base {
       const pack = require(this.destinationPath('package.json')); //eslint-disable-line global-require
       this.fs.write(this.destinationPath('package.json'), JSON.stringify(merge(pack, config)));
       if (this.props.isEslint) {
-      this.fs.copyTpl(
-        this.templatePath('eslintrc.js'),
-        this.destinationPath('.eslintrc.js'),
-        this.props
-      );
+        this.fs.copyTpl(
+          this.templatePath('eslintrc.js'),
+          this.destinationPath('.eslintrc.js'),
+          this.props
+        );
+      }
+      if (this.props.isBabel) {
+        this.fs.copyTpl(
+          this.templatePath('babelrc.js'),
+          this.destinationPath('.babelrc'),
+          this.props
+        );
       }
     }
   }

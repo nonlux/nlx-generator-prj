@@ -21,26 +21,18 @@
   },
   "devDependencies": {
     "babel-register": "^6.16.3",
-    "nlx-babel-config": "0.0.1",
+    "nlx-babel-config": "0.0.2",
     "nlx-eslint-config": "0.0.2",
     "npm-check-updates": "^2.8.6",
     "yeoman-assert": "^2.0.0",
     "yeoman-test": "^1.0.0"
-  },
-  "eslintConfig": {
-    "extends": "xo-space",
-    "env": {
-      "mocha": true
-    }
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/nonlux/nlx-generator-prj.git"
   },
   "scripts": {
-    "prepublish": "gulp prepublish",
-    "test": "gulp",
-    "postinstall": "./npm-post.sh",
+    "postinstall": "",
     "ncu": "ncu"
   },
   "license": "MIT",
