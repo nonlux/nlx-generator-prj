@@ -72,6 +72,13 @@ function prompt(data, promptKeys, generator, resolve) {
         message: 'Use babel.js?',
       };
     },
+    isWebpack() {
+      return {
+        type: 'confirm',
+        name: 'isWebpack',
+        message: 'Use webpack?',
+      };
+    },
     isEslint() {
       return {
         type: 'confirm',

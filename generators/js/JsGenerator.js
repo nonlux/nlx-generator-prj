@@ -1,5 +1,6 @@
 import { Base } from 'yeoman-generator';
 import config from '../config';
+import merge from 'deepmerge';
 
 export default class JsGenerator extends Base {
   initializing() {
@@ -12,6 +13,7 @@ export default class JsGenerator extends Base {
       'isGithub',
       'isBabel',
       'isEslint',
+      'isWebpack'
     ]);
   }
   writing() {
@@ -24,7 +26,6 @@ export default class JsGenerator extends Base {
           postinstall: './npm-post.sh',
         },
         name,
-        version: '0.0.1',
       };
       if (this.props.isGithub) {
         const url = `https://github.com/nonlux/${name}`;
@@ -40,8 +41,10 @@ export default class JsGenerator extends Base {
       if (!this.fs.exists(this.destinationPath('package.json'))) {
         console.log('generate package json');
         this.spawnCommandSync('npm', ['init', '-f']);
+        config.version = '0.0.1';
       }
-      this.fs.extendJSON(this.destinationPath('package.json'), config);
+      const pack = require(this.destinationPath('package.json')); //eslint-disable-line global-require
+      this.fs.write(this.destinationPath('package.json'), JSON.stringify(merge(pack, config)));
       this.fs.copyTpl(
         this.templatePath('npm-post.sh'),
         this.destinationPath('npm-post.sh'),
@@ -54,10 +57,12 @@ export default class JsGenerator extends Base {
       const devPackges = ['install'];
       if (this.props.isBabel) {
         devPackges.push('nlx-babel-config');
-        this.spawnCommandSync('npm', ['install', 'nlx-babel-config', '--save-dev']);
       }
       if (this.props.isEslint) {
         devPackges.push('nlx-eslint-config');
+      }
+      if (this.props.isWebpack) {
+        devPackges.push('nlx-webpack-config');
       }
       devPackges.push('--save-dev');
       this.spawnCommandSync('npm', devPackges);

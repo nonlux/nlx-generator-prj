@@ -1,8 +1,8 @@
 name: genprj
 root: /home/user/src/nlx-generator-prj
 pre: emacs --eval "(setq server-name \"genprj\")" --daemon
-startup_window: readme
+startup_window: editor
 windows:
-  - readme: vim -R README.md
+  - none: ''
   - editor: emacsclient -s genprj ./
   - zsh: ''
