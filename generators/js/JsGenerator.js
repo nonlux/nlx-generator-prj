@@ -45,8 +45,6 @@ export default class JsGenerator extends Base {
         this.spawnCommandSync('npm', ['init', '-f']);
         config.version = '0.0.1';
       }
-      const pack = require(this.destinationPath('package.json')); //eslint-disable-line global-require
-      this.fs.write(this.destinationPath('package.json'), JSON.stringify(merge(pack, config)));
       if (this.props.isEslint) {
         this.fs.copyTpl(
           this.templatePath('eslintrc.js'),
@@ -60,7 +58,41 @@ export default class JsGenerator extends Base {
           this.destinationPath('.babelrc'),
           this.props
         );
+        config.scripts.babel = 'babel';
+        config.scripts['babel-build'] = 'babel src --out-dir lib';
+        if (this.props.projectName === 'nlx-webpack-config') {
+          config.scripts['babel-build'] = 'babel config --out-dir lib';
+        }
       }
+      if (this.props.isWebpack) {
+        this.fs.copyTpl(
+          this.templatePath('webpack/conf.js'),
+          this.destinationPath('webpack.config.js'),
+          this.props
+        );
+        this.fs.copyTpl(
+          this.templatePath('webpack/dev.js'),
+          this.destinationPath('src/dev.js'),
+          this.props
+        );
+        this.fs.copyTpl(
+          this.templatePath('webpack/pug.js'),
+          this.destinationPath('pug/index.js'),
+          this.props
+        );
+        if (!this.fs.exists(this.destinationPath('src/index.js'))) {
+          this.fs.copyTpl(
+            this.templatePath('webpack/index.js'),
+            this.destinationPath('src/index.js'),
+            this.props
+          );
+        }
+        config.scripts.webpack = 'webpack';
+        config.scripts.dev = 'webpack-dev-server --hot --inline';
+      }
+      const packagePath = this.destinationPath('package.json');
+      const pack = require(packagePath);//eslint-disable-line global-require
+      this.fs.write(packagePath, JSON.stringify(merge(pack, config)));
     }
   }
   install() {
