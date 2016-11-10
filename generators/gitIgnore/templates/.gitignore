@@ -2,6 +2,12 @@
 *\#*
 \#*
 *.log
+*.pyc
+*.swp
+/tmp/*
 <% if (projectType === 'javascript' ) { %>
 node_modules/*
+<% } %>
+<% if (projectType === 'ansible' ) { %>
+*.retry
 <% } %>

@@ -33,7 +33,7 @@ function getPromptedFields(data, required) {
   return ret;
 }
 
-function prompt(data, promptKeys, generator, resolve) {
+function prompt(data, promptKeys, generator, resolve, extendedSchema= {}) {
   const schema = {
     projectName() {
       return {
@@ -55,7 +55,11 @@ function prompt(data, promptKeys, generator, resolve) {
         type: 'list',
         name: 'projectType',
         message: 'Type of project:',
-        choices: ['shell', 'javascript'],
+        choices: [
+          'shell',
+          'javascript',
+          'ansible',
+        ],
       };
     },
     isGithub() {
@@ -94,6 +98,7 @@ function prompt(data, promptKeys, generator, resolve) {
         default: '',
       };
     },
+    ...extendedSchema,
   };
   const key = promptKeys.shift();
   if (key) {
@@ -102,11 +107,27 @@ function prompt(data, promptKeys, generator, resolve) {
         ...data,
         ...props
       };
-      prompt(nextData, promptKeys, generator, resolve);
+      prompt(nextData, promptKeys, generator, resolve, extendedSchema);
     });
   } else {
     resolve(data);
   }
+}
+
+export function promptLocal(generator, extendedSchema) {
+    return new Promise((resolve)=>{
+      prompt(
+        generator.props,
+        Object.keys(extendedSchema),
+        generator,
+        resolve,
+        extendedSchema);
+    }).then((data) => {
+      generator.props = {
+        ...generator.props,
+        ...data,
+      };
+    });
 }
 
 function promptRequired(required, generator) {

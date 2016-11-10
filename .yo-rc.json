@@ -1,5 +1,5 @@
 {
-  "nlx-generator-prj": {
+  "generator-prj": {
     "shortName": "genprj",
     "description": "yeoman project generator",
     "projectType": "javascript",
