@@ -1,4 +1,4 @@
-import { BaseGenerator } from 'yeoman-generator';
+import { Base as BaseGenerator } from 'yeoman-generator';
 import config, { promptLocal }  from '../config';
 
 export default class <%=generatorName%>Generator extends BaseGenerator {

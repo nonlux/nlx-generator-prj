@@ -154,27 +154,3 @@ export default function config(generator, options, refresh) {
       });
   });
 }
-
-export function  ignors({projectType}) {
-    let defaultsIgnors = [
-      '*~',
-      '*\#*',
-      '\#*',
-      '*.log',
-      '*.pyc',
-      '*.swp',
-      '/tmp/*',
-    ];
-    const ignorsByProjects = {
-      shell: [
-      ],
-      javascript: [
-        'node_modules/*'
-      ],
-      ansible: [
-        '*.retry'
-      ],
-    };
-
-  return [...defaultsIgnors, ...ignorsByProjects[projectType]];
-}
