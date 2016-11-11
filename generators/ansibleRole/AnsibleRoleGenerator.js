@@ -1,7 +1,7 @@
 import { Base } from 'yeoman-generator';
 import config, { promptLocal }  from '../config';
 import merge from 'deepmerge';
-import { exec } from 'child_process';
+import { switchToEditor} from '../utils.js'
 
 export default class JsGenerator extends Base {
   initializing() {
@@ -39,15 +39,6 @@ export default class JsGenerator extends Base {
       filePath,
       this.props
     );
-    const execLog = (error, stdout, stderr) => {
-      if (error) {
-        console.error(`exec error: ${error}`);
-        return;
-      }
-      console.log(`stdout: ${stdout}`);
-      console.log(`stderr: ${stderr}`);
-    };
-    exec(`nohup sleep 0.5 && emacsclient -n -s ${shortName} ${filePath} &`, execLog);
-    exec(`nohup tmux select-window -t :=1 &`, execLog);
+    switchToEditor(shortName, filePath);
   }
 }

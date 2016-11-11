@@ -4,7 +4,7 @@
     "description": "yeoman project generator",
     "projectType": "javascript",
     "isGithub": true,
-    "projectName": "nlx-generator-prj",
+    "projectName": "generator-prj",
     "isBabel": true,
     "isEslint": true,
     "isWebpack": false
