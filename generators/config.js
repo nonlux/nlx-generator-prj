@@ -1,5 +1,6 @@
 const HOME = process.env.HOME;
 import path from 'path';
+import { argv } from 'yargs';
 
 function loadConfig(generator, refresh) {
   let data = global.DATA ? global.DATA : generator.config.getAll();
@@ -102,38 +103,46 @@ function prompt(data, promptKeys, generator, resolve, extendedSchema= {}) {
   };
   const key = promptKeys.shift();
   if (key) {
-    generator.prompt([schema[key](data)]).then((props) => {
+    const promptCallback = (props) => {
       const nextData = {
         ...data,
         ...props
       };
       prompt(nextData, promptKeys, generator, resolve, extendedSchema);
-    });
+    };
+    console.log(argv, key,  argv[key]);
+    if (argv[key]) {
+      const  callbackedProps = {};
+      callbackedProps[key] = argv[key];
+      promptCallback(callbackedProps);
+    }
+    else {
+      generator.prompt([schema[key](data)]).then(promptCallback);
+    }
   } else {
     resolve(data);
   }
 }
 
 export function promptLocal(generator, extendedSchema) {
-    return new Promise((resolve)=>{
-      prompt(
-        generator.props,
-        Object.keys(extendedSchema),
-        generator,
-        resolve,
-        extendedSchema);
-    }).then((data) => {
-      generator.props = {
-        ...generator.props,
-        ...data,
-      };
-    });
+  return new Promise((resolve)=>{
+    prompt(
+      generator.props,
+      Object.keys(extendedSchema),
+      generator,
+      resolve,
+      extendedSchema);
+  }).then((data) => {
+    generator.props = {
+      ...generator.props,
+      ...data,
+    };
+  });
 }
 
 function promptRequired(required, generator) {
   return (data) => {
     const promptKeys = getPromptedFields(data, required);
-
     return new Promise((resolve) => {
       prompt(data, promptKeys, generator, resolve);
     });

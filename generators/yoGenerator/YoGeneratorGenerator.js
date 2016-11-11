@@ -14,7 +14,7 @@ export default class JsGenerator extends Base {
   }
   promptingLocal() {
     return promptLocal(this, {
-      role: () => {
+      generator: () => {
         return {
           type: 'prompt',
           name: 'generator',
