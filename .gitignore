@@ -4,3 +4,10 @@
 *.log
 
 node_modules/*
+
+foos
+*#*
+#*
+*.pyc
+*.swp
+/tmp/*

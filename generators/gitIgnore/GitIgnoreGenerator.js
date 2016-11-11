@@ -1,19 +1,15 @@
 import { Base } from 'yeoman-generator';
-import config from '../config';
+import config, {ignors}  from '../config';
+import { mergeText } from '../utils';
 
 export default class GitIgnoreGenerator extends Base {
   prompting() {
     return config(this, ['projectType']);
   }
   writing() {
-    this.fs.copyTpl(
-      this.templatePath('.gitignore'),
-      this.destinationPath('.gitignore'),
-      {
-        isBabel: false,
-        isEslint: false,
-        ...this.props
-      }
-    );
+    const file = this.destinationPath('.gitignore');
+    const content = this.fs.read(file, ' ');
+    console.log(mergeText(content, ignors(this.props)));
+    this.fs.write(file, mergeText(content, ignors(this.props)));
   }
 }

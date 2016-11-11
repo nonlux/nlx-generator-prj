@@ -15,3 +15,11 @@ export function switchToEditor(emacsServer, file) {
 export function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+
+export function mergeText(text, appends) {
+  const lines = text.split(/\n/);
+  const merged = appends.filter(item => !lines.includes(item));
+  return [...lines, ...merged].join("\n");
+}
+
