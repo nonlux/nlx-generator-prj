@@ -1,2 +1,3 @@
-# generator-prj 
-> Generators for my projects
+# generator-prj
+
+yeoman project generator
