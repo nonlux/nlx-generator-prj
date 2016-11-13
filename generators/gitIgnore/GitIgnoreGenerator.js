@@ -32,7 +32,10 @@ export default class GitIgnoreGenerator extends Base {
   }
   writing() {
     const file = this.destinationPath('.gitignore');
-    const content = this.fs.read(file, ' ');
+    let content = '';
+    if (this.fs.exists(file)) {
+      content = this.fs.read(file, ' ');
+    }
     this.fs.write(file, mergeText(content, ignors(this.props)));
   }
 }

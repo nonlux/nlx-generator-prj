@@ -21,7 +21,7 @@ export default class JsGenerator extends Base {
           message: 'Role name:',
         };
       },
-      file: () => {
+      task: () => {
         return {
           type: 'prompt',
           name: 'task',

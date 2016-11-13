@@ -110,7 +110,6 @@ function prompt(data, promptKeys, generator, resolve, extendedSchema= {}) {
       };
       prompt(nextData, promptKeys, generator, resolve, extendedSchema);
     };
-    console.log(argv, key,  argv[key]);
     if (argv[key]) {
       const  callbackedProps = {};
       callbackedProps[key] = argv[key];
