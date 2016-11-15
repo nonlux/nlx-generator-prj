@@ -13,7 +13,9 @@ export default class JsGenerator extends Base {
       'isGithub',
       'isBabel',
       'isEslint',
-      'isWebpack'
+      'isWebpack',
+      'isGulp',
+      'isReact',
     ]);
   }
   writing() {
@@ -60,9 +62,7 @@ export default class JsGenerator extends Base {
         );
         config.scripts.babel = 'babel';
         config.scripts['babel-build'] = 'babel src --out-dir lib';
-        if (this.props.projectName === 'nlx-webpack-config') {
-          config.scripts['babel-build'] = 'babel config --out-dir lib';
-        }
+        config.main="lib/index.js";
       }
       if (this.props.isWebpack) {
         this.fs.copyTpl(
@@ -70,25 +70,50 @@ export default class JsGenerator extends Base {
           this.destinationPath('webpack.config.js'),
           this.props
         );
-        this.fs.copyTpl(
-          this.templatePath('webpack/dev.js'),
-          this.destinationPath('src/dev.js'),
-          this.props
-        );
-        this.fs.copyTpl(
-          this.templatePath('webpack/pug.js'),
-          this.destinationPath('pug/index.js'),
-          this.props
-        );
-        if (!this.fs.exists(this.destinationPath('src/index.js'))) {
+        if (false) {
           this.fs.copyTpl(
-            this.templatePath('webpack/index.js'),
-            this.destinationPath('src/index.js'),
+            this.templatePath('webpack/dev.js'),
+            this.destinationPath('src/dev.js'),
             this.props
           );
+          this.fs.copyTpl(
+            this.templatePath('webpack/pug.js'),
+            this.destinationPath('pug/index.js'),
+            this.props
+          );
+          if (!this.fs.exists(this.destinationPath('src/index.js'))) {
+            this.fs.copyTpl(
+              this.templatePath('webpack/index.js'),
+              this.destinationPath('src/index.js'),
+              this.props
+            );
+          }
         }
         config.scripts.webpack = 'webpack';
         config.scripts.dev = 'webpack-dev-server --hot --inline';
+      }
+      if (this.props.isGulp) {
+            this.fs.copyTpl(
+              this.templatePath('gulp/gulpfile.js'),
+              this.destinationPath('gulpfile.js'),
+              this.props
+            );
+        const html = this.destinationPath('static/index.html');
+        if (!this.fs.exists(html)) {
+            this.fs.copyTpl(
+              this.templatePath('gulp/index.html'),
+              html,
+              this.props
+            );
+        }
+        const less = this.destinationPath('less/index.less');
+        if (!this.fs.exists(less)) {
+            this.fs.copyTpl(
+              this.templatePath('gulp/index.less'),
+              less,
+              this.props
+            );
+        }
       }
       const packagePath = this.destinationPath('package.json');
       const pack = require(packagePath);//eslint-disable-line global-require
@@ -97,7 +122,8 @@ export default class JsGenerator extends Base {
   }
   install() {
     if (this.props.projectType === 'javascript') {
-      const devPackges = ['install', 'npm-check-updates'];
+      let devPackges = ['install', 'npm-check-updates'];
+      let prodPackges = ['install'];
       if (this.props.isBabel) {
         devPackges.push('nlx-babel-config');
       }
@@ -107,7 +133,52 @@ export default class JsGenerator extends Base {
       if (this.props.isWebpack) {
         devPackges.push('nlx-webpack-config');
       }
+      if (this.props.isGulp) {
+        devPackges.push('nlx-gulp-tasks');
+      }
+      if (this.props.isReact) {
+        devPackges = [
+          ...devPackges,
+          ...[
+            'react-hot-loader',
+            'react-render-visualizer',
+            'react-render-visualizer-decorator',
+            'react-transform-catch-errors',
+            'redbox-react',
+            'redux-devtools',
+            'redux-devtools-dispatch',
+            'redux-devtools-dock-monitor',
+            'redux-devtools-log-monitor',
+            'redux-devtools-multiple-monitors',
+            'why-did-you-update',
+          ],
+        ];
+        prodPackges = [
+          ...prodPackges,
+          ...[
+            'react',
+            'react-addons-pure-render-mixin',
+            'react-autosuggest',
+            'react-bootstrap',
+            'react-dom',
+            'react-redux',
+            'react-router',
+            'redux',
+            'redux-form',
+            'redux-thunk',
+            'reselect',
+            'classnames',
+          ],
+        ];
+        if (this.props.projectName !== 'nlx-react-common' ) {
+          prodPackges.push('nlx-react-common');
+        }
+      }
       devPackges.push('--save-dev');
+      prodPackges.push('--save');
+      if (prodPackges.length > 2 ) {
+        this.spawnCommandSync('npm', prodPackges);
+      }
       this.spawnCommandSync('npm', devPackges);
     }
   }

@@ -91,6 +91,20 @@ function prompt(data, promptKeys, generator, resolve, extendedSchema= {}) {
         message: 'Use eslint?',
       };
     },
+    isGulp() {
+      return {
+        type: 'confirm',
+        name: 'isGulp',
+        message: 'Use gulp?',
+      };
+    },
+    isReact() {
+      return {
+        type: 'confirm',
+        name: 'isReact',
+        message: 'Use react/redux?',
+      };
+    },
     description() {
       return {
         type: 'prompt',
